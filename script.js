@@ -95,7 +95,6 @@ function havelHakimi(degrees) {
     return { output, isGraphical: true };
 }
 
-// Main function to run the algorithm
 function runAlgorithm() {
     const outputDiv = document.getElementById("steps-output");
     const { error, sequence } = getSequence();
@@ -152,8 +151,8 @@ const exercises = {
         solutionEdges: [[0,1], [1,2], [2,3], [3,0]]
     },
     2: {
-        sequence: [3, 3, 3, 2, 1],
-        title: "Exercise 2: [3, 3, 3, 2, 1]",
+        sequence: [3, 3, 3, 3, 2],
+        title: "Exercise 2: [3, 3, 3, 3, 2]",
         vertices: 5,
         isGraphical: true,
         solution: [
@@ -330,7 +329,7 @@ function showSolution() {
     const message = document.getElementById('message');
     
     if (!exercise.isGraphical) {
-        message.innerHTML = "This sequence is not graphical!";
+        message.innerHTML = "This sequence is not graphical! The highest degree (4) is greater than the number of available vertices (3) after removing it\n2. Each vertex can only connect to 3 others in a 4-vertex graph";
         message.className = 'error';
         return;
     }
