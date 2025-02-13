@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Havel-Hakimi Algorithm</title>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-cpp.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css"> -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Havel-Hakimi Algorithm</h1>
+        
+        <section>
+            <h2>Overview</h2>
+            <p>
+                The Havel-Hakimi algorithm determines whether a sequence of non-negative integers can be realized as the degree sequence of a simple graph. A degree sequence is graphical if it can represent the degrees of vertices in a simple graph.
+            </p>
+        </section>
+
+        <section>
+            <h2>Try It Out</h2>
+            <div class="interactive">
+                <div class="input-group">
+                    <label for="size-input">Number of vertices:</label>
+                    <input type="number" id="size-input" min="1" placeholder="Enter number of vertices">
+                </div>
+                
+                <div class="input-group">
+                    <label for="sequence-input">Degree sequence (maximum degree is <span id="max-degree">N/A</span>):</label>
+                    <input type="text" id="sequence-input" placeholder="Enter sequence (e.g., 3 3 3 2)">
+                </div>
+                
+                <button onclick="runAlgorithm()">Run Algorithm</button>
+                <pre id="steps-output" class="steps-display"></pre>
+            </div>
+        </section>
+
+        <h1>Graph Drawing Exercise</h1>
+
+        <div class="exercise-selector">
+            <h3>Select Exercise:</h3>
+            <button onclick="selectExercise(1)">Exercise 1: [2, 2, 2, 2]</button>
+            <button onclick="selectExercise(2)">Exercise 2: [3, 3, 3, 2, 1]</button>
+            <button onclick="selectExercise(3)">Exercise 3: [4, 4, 4, 1] (Impossible)</button>
+        </div>
+
+        <div class="exercise-section">
+            <h2 id="exercise-title">Exercise 1: [2, 2, 2, 2]</h2>
+            <p id="exercise-description">Draw a graph with vertices where each vertex has the specified degree.</p>
+            
+            <div class="instructions">
+                <h3>Instructions:</h3>
+                <ol>
+                    <li>Click on the canvas to place vertices</li>
+                    <li>Click and drag between vertices to create edges</li>
+                    <li>Each vertex must have the correct number of edges according to the sequence</li>
+                    <li>Edges cannot overlap</li>
+                </ol>
+            </div>
+
+            <div class="canvas-container">
+                <canvas id="graphCanvas" width="400" height="400"></canvas>
+            </div>
+
+            <div class="controls">
+                <button onclick="clearCanvas()">Clear Canvas</button>
+                <button onclick="checkGraph()">Check Graph</button>
+                <button onclick="showSolution()">Show Solution</button>
+            </div>
+
+            <div id="message"></div>
+        </div>
+    </div>
+
+        
+        <section>
+            <h2>Algorithm Steps</h2>
+            <div class="step">
+                <h3>1. Input Validation</h3>
+                <p>First, ensure all numbers in the sequence are non-negative and less than the number of vertices.</p>
+            </div>
+            
+            <div class="step">
+                <h3>2. Sort Sequence</h3>
+                <p>Sort the sequence in non-increasing order (descending).</p>
+            </div>
+            
+            <div class="step">
+                <h3>3. Process Highest Degree</h3>
+                <p>Take the first number (d) in the sequence and set it to 0.</p>
+            </div>
+            
+            <div class="step">
+                <h3>4. Reduce Following Terms</h3>
+                <p>Subtract 1 from each of the next d terms in the sequence.</p>
+            </div>
+            
+            <div class="step">
+                <h3>5. Repeat</h3>
+                <p>Repeat steps 2-4 until either:</p>
+                <ul>
+                    <li>All numbers become 0 (sequence is graphical)</li>
+                    <li>A negative number appears (sequence is not graphical)</li>
+                    <li>Not enough terms remain to subtract from (sequence is not graphical)</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>Example Execution</h2>
+            <div class="example">
+                <h3>Input Sequence: <span class="sequence">3 3 3 2</span></h3>
+                <div class="sequence-steps">
+                    <pre><code>Initial:    3 3 2 2
+Step 1:     0 2 1 1    (removed 3, subtracted 1 from next 3 numbers)
+Step 2:     0 0 0 0    (removed 2, subtracted 1 from next 2 numbers)
+                    </code></pre>
+                </div>
+                <p>Result: This sequence is graphical because all numbers became 0.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Implementation</h2>
+            <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+bool havel_hakimi(vector<int>& degrees)
+{
+    {
+      while(!degrees.empty())
+      {
+        sort(degrees.rbegin(), degrees.rend());
+    
+        if(degrees.at(0) == 0)
+        {
+          return true;
+        }
+    
+        int highest_degree = degrees[0];
+    
+        if(highest_degree > degrees.size() - 1)
+        {
+          return false;
+        }
+        degrees.erase(degrees.begin());
+    
+        for(int i = 0; i < highest_degree; i++)
+        {
+          degrees.at(i)--;
+          if(degrees.at(i) < 0)
+          {
+            cout << "Negative number encountered" << endl;
+            return false;
+          }
+        }
+      }
+      return true;
+    }
+}</code></pre>
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
