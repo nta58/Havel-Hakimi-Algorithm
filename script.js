@@ -99,11 +99,11 @@ function runAlgorithm() {
     const outputDiv = document.getElementById("steps-output");
     const { error, sequence } = getSequence();
     
-    if (error) {
-        outputDiv.innerHTML = `Error: ${error}`;
-        outputDiv.style.color = "red";
-        return;
-    }
+    // if (error) {
+    //     outputDiv.innerHTML = `Error: ${error}`;
+    //     outputDiv.style.color = "red";
+    //     return;
+    // }
     
     const { output, isGraphical } = havelHakimi(sequence);
     
